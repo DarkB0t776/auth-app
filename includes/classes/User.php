@@ -10,8 +10,12 @@ class User
   public function __construct()
   {
     $this->db = new Database;
+    $lang = new Language;
+    $this->langData = $lang->getLangData();
   }
 
+
+  //Register User
   public function register($data)
   {
     if ($this->validateData($data)) {
@@ -35,6 +39,7 @@ class User
     }
   }
 
+  //Log In User
   public function login($data)
   {
     $password = $this->generatePassword($data['password']);
@@ -45,11 +50,23 @@ class User
 
     $row = $this->db->getSingleResult();
 
+    // If user found create sessions
     if ($row) {
       $_SESSION['user_id'] = $row->id;
       $_SESSION['user_name'] = $row->full_name;
       $_SESSION['user_email'] = $row->email;
 
+      return true;
+    } else {
+      array_push($this->errors, $this->langData->user_not_found);
+      return false;
+    }
+  }
+
+  // Check if user is logged in
+  public function isLoggedIn()
+  {
+    if (isset($_SESSION['user_id'])) {
       return true;
     } else {
       return false;
@@ -65,17 +82,22 @@ class User
     return $this->db->getSingleResult();
   }
 
+
+  // Create hashed password
   private function generatePassword($pass)
   {
     return hash('SHA512', $pass);
   }
 
+  // Upload Image
   private function uploadImage($image)
   {
+    // If image is not loaded - exit from function
     if (empty($image['name'])) {
       return;
     }
 
+    // If image is loaded - generate image name and path to store
     $ext = strtolower(pathinfo(basename($image['name']), PATHINFO_EXTENSION));
     $targetDir = __DIR__ . '/../../assets/img/';
     $imageName = random_int(0, 1000000000) . '.' . $ext;
@@ -91,6 +113,7 @@ class User
     return $this->errors;
   }
 
+  // Data Validation
   private function validateData($data)
   {
     $this->validateName($data['f_name']);
@@ -108,12 +131,11 @@ class User
 
   private function validateName($name)
   {
-    if (empty($name)) {
-      array_push($this->errors, 'Name should not be empty');
+    if (strlen($name) < 2) {
+      array_push($this->errors, $this->langData->name_length_error);
     }
-
     if (!preg_match('/^[A-Za-z ]+$/', $name)) {
-      array_push($this->errors, 'Name should contains of letters only');
+      array_push($this->errors, $this->langData->name_type_error);
     }
   }
 
@@ -125,27 +147,24 @@ class User
 
 
     if ($row > 0) {
-      array_push($this->errors, 'Email already exists');
+      array_push($this->errors, $this->langData->email_exists_error);
     }
     if (empty($email)) {
-      array_push($this->errors, 'Email should not be empty');
+      array_push($this->errors, $this->langData->email_empty_error);
     }
 
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-      array_push($this->errors, 'Email is invalid');
+      array_push($this->errors, $this->langData->email_type_error);
     }
   }
 
   private function validatePasswords($pass1, $pass2)
   {
-    if (empty($pass1)) {
-      array_push($this->errors, 'Password should not be empty');
-    }
     if (strlen($pass1) < 6) {
-      array_push($this->errors, 'Password should be at least 6 characters');
+      array_push($this->errors, $this->langData->password_length_error);
     }
     if ($pass1 !== $pass2) {
-      array_push($this->errors, "Passwords do not match");
+      array_push($this->errors, $this->langData->password_match_error);
     }
   }
 
@@ -156,7 +175,7 @@ class User
       $ext = strtolower(pathinfo(basename($image['name']), PATHINFO_EXTENSION));
 
       if (!in_array($ext, $extensions)) {
-        array_push($this->errors, 'Only jpg, jpeg, png, or gif extension is allowed');
+        array_push($this->errors, $this->langData->image_type_error);
       }
     } else {
       return;

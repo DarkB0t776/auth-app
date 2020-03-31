@@ -13,16 +13,18 @@ class Language
     $this->db = new Database;
   }
 
+
+  // Get data of specific language
   public function getLangData()
   {
-    if (isset($_SESSION['lang'])) {
-      $this->lang = $_SESSION['lang'];
+    if (isset($_COOKIE['lang'])) {
+      $this->lang = $_COOKIE['lang'];
     }
 
-    if ($this->lang === 'en') {
-      $sql = "SELECT * FROM eng";
-    } elseif ($this->lang === 'ua') {
+    if ($this->lang === 'uk') {
       $sql = "SELECT * FROM ua";
+    } else {
+      $sql = "SELECT * FROM eng";
     }
     $this->db->query($sql);
 

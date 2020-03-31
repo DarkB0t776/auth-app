@@ -1,14 +1,19 @@
 <?php
 require_once __DIR__ . '/loader.php';
-
+// Check for GET parameter
 if (isset($_GET['lang'])) {
-  $_SESSION['lang'] = filter_var(trim($_GET['lang']), FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+  // Get value of GET parameter
+  $lang = filter_var(trim($_GET['lang']), FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+  // Create cookie
+  setcookie('lang', $lang, time() + 3600 * 24 * 30);
+  // Redirection
+  header("Location: " . $_SERVER['PHP_SELF']);
 }
-$lang = new Language;
-$langData = $lang->getLangData();
+$language = new Language;
+$langData = $language->getLangData();
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="<?= $_COOKIE['lang'] ?>">
 
 <head>
   <meta charset="UTF-8">
@@ -20,3 +25,4 @@ $langData = $lang->getLangData();
 
 <body>
   <?php require_once __DIR__ . '/navbar.php' ?>
+  <div class="container d-flex flex-column align-items-center mt-5">
