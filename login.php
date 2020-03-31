@@ -26,7 +26,7 @@ if (isset($_POST['submit'])) {
 <form action="<?= WEB_ROOT ?>/login.php" method="POST" enctype="multipart/form-data">
   <div class="form-group">
     <label for="exampleInputEmail1"><?= $langData->email ?></label>
-    <input type="text" name="email" class="form-control" id="exampleInputEmail1">
+    <input type="text" name="email" class="form-control" id="exampleInputEmail1" value=<?= $_POST['email'] ?? '' ?>>
   </div>
   <div class="form-group">
     <label for="exampleInputPassword1"><?= $langData->password ?></label>
