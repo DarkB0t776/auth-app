@@ -67,7 +67,7 @@ const validateName = name => {
 };
 
 const validateEmail = email => {
-  const pattern = /\S+@\S+\.\S+/;
+  const pattern = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
   if (email.length === 0) {
     emailError.textContent = error.email_empty;
     return false;

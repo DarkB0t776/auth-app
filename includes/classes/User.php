@@ -153,7 +153,7 @@ class User
       array_push($this->errors, $this->langData->email_empty_error);
     }
 
-    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    if (!preg_match('/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/', $email)) {
       array_push($this->errors, $this->langData->email_type_error);
     }
   }

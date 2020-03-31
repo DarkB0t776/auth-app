@@ -7,8 +7,8 @@ if ($user->isLoggedIn()) header('Location: profile.php');
 // Check if submit button was pressed
 if (isset($_POST['submit'])) {
   $data = [
-    'f_name' => trim($_POST['f_name']),
-    'email' => trim($_POST['email']),
+    'f_name' => filter_var(trim($_POST['f_name']), FILTER_SANITIZE_STRING),
+    'email' => filter_var(trim($_POST['email']), FILTER_SANITIZE_EMAIL),
     'password' => trim($_POST['password']),
     'confirm_password' => trim($_POST['confirm_password']),
     'avatar' => $_FILES['avatar']

@@ -14,7 +14,7 @@ if (isset($_SESSION['user_id'])) {
 ?>
 
 <div class="card" style="width:400px">
-  <img src="assets/img/<?= $user->avatar ?>" alt="avatar" class="card-img-top">
+  <img src="assets/img/<?= $user->avatar ?? 'default.png' ?>" alt="avatar" class="card-img-top">
   <div class="card-body">
     <h4 class="card-title"><?= $user->full_name ?></h4>
     <p class="lead"><?= $langData->email ?>: <?= $user->email ?></p>
