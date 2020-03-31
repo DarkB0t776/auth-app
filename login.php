@@ -20,16 +20,16 @@ if (isset($_POST['submit'])) {
   <div class="container">
     <form action="login.php" method="POST" enctype="multipart/form-data">
       <div class="form-group">
-        <label for="exampleInputEmail1">Email address</label>
+        <label for="exampleInputEmail1"><?= $langData->email ?></label>
         <input type="email" name="email" class="form-control" id="exampleInputEmail1">
         <p class="email-error"></p>
       </div>
       <div class="form-group">
-        <label for="exampleInputPassword1">Password</label>
+        <label for="exampleInputPassword1"><?= $langData->password ?></label>
         <input type="password" name="password" class="form-control" id="exampleInputPassword1">
         <p class="pass-error"></p>
       </div>
-      <input type="submit" name='submit' class="btn btn-primary" value="Log In">
+      <input type="submit" name='submit' class="btn btn-primary" value="<?= $langData->login ?>">
     </form>
   </div>
 </section>

@@ -1,5 +1,9 @@
 <?php
 require_once __DIR__ . '/loader.php';
+
+if (isset($_GET['lang'])) {
+  $_SESSION['lang'] = filter_var(trim($_GET['lang']), FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+}
 $lang = new Language;
 $langData = $lang->getLangData();
 ?>

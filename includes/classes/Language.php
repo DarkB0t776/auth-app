@@ -6,6 +6,8 @@ class Language
   private $db;
   private $langData;
 
+
+
   public function __construct()
   {
     $this->db = new Database;
@@ -13,7 +15,15 @@ class Language
 
   public function getLangData()
   {
-    $sql = "SELECT * FROM lang";
+    if (isset($_SESSION['lang'])) {
+      $this->lang = $_SESSION['lang'];
+    }
+
+    if ($this->lang === 'en') {
+      $sql = "SELECT * FROM eng";
+    } elseif ($this->lang === 'ua') {
+      $sql = "SELECT * FROM ua";
+    }
     $this->db->query($sql);
 
     $this->langData = $this->db->getSingleResult();
