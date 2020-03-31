@@ -18,7 +18,7 @@ if (isset($_POST['submit'])) {
 
 <section class="jumbotron">
   <div class="container">
-    <form action="login.php" method="POST" enctype="multipart/form-data">
+    <form action="<?= WEB_ROOT ?>/login.php" method="POST" enctype="multipart/form-data">
       <div class="form-group">
         <label for="exampleInputEmail1"><?= $langData->email ?></label>
         <input type="email" name="email" class="form-control" id="exampleInputEmail1">
